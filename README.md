@@ -1,2 +1,3 @@
 # next-playground
-Next.js practice code.
+
+Next.js playground to write practice code.
