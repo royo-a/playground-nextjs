@@ -1,16 +1,23 @@
 import Link from 'next/link';
 
 export default function Home() {
+  const links = [
+    { name: 'Home', link: '/' },
+    { name: 'About', link: '/about#3' },
+    { name: 'Contact', link: '/contact' },
+  ];
+
   return (
     <div>
-      <Link href={'/contacts'} className="underline text-blue-500">
-        Contacts
-      </Link>
-      <p></p>
-      <Link href={'/dashboard'} className="underline text-blue-500">
-        Dashboard
-      </Link>
-      <p>Hello! This is the home page</p>
+      {links.map((link) => (
+        <Link
+          className="text-blue-500 underline"
+          key={link.name}
+          href={link.link}
+        >
+          {link.name}
+        </Link>
+      ))}
     </div>
   );
 }
