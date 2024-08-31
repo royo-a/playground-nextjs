@@ -1,23 +1,20 @@
-import Link from 'next/link';
-
+const links = [
+  { name: 'Home', link: '/' },
+  { name: 'About', link: '/about#3' },
+  { name: 'Contact', link: '/contact' },
+];
 export default function Home() {
-  const links = [
-    { name: 'Home', link: '/' },
-    { name: 'About', link: '/about#3' },
-    { name: 'Contact', link: '/contact' },
-  ];
+  const {} = useForm({
+    defaultValues: {
+      firstName: '',
+    },
+  });
 
   return (
-    <div>
-      {links.map((link) => (
-        <Link
-          className="text-blue-500 underline"
-          key={link.name}
-          href={link.link}
-        >
-          {link.name}
-        </Link>
-      ))}
-    </div>
+    <form>
+      <input type="text" placeholder="First Name" className="border" />
+      <br />
+      <input type="submit" className="border bg-green-300" />
+    </form>
   );
 }
