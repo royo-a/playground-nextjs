@@ -1,30 +1,32 @@
 'use client';
 
-import Link from 'next/link';
-import { useSearchParams, useRouter } from 'next/navigation';
-
-const links = [
-  { name: 'Home', link: '/' },
-  { name: 'About', link: '/about' },
-  { name: 'Contact', link: '/contact' },
-];
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const searchParams = useSearchParams();
-  console.log(searchParams.get('link'));
-  console.log('Hello my name is ARnab');
+  const [numberSet, setNumberSet] = useState(new Set());
+  let setSize = 0;
+
+  const addToSet = () => {
+    setNumberSet((set) => {
+      let newSet = new Set(numberSet);
+      newSet.add(numberSet.size + 1);
+      return newSet;
+    });
+  };
+
+  useEffect(() => {
+    setSize++;
+    console.log(setSize);
+  }, []);
 
   return (
     <div>
-      {links.map((link) => (
-        <Link
-          className="underline text-blue-500 mr-1"
-          key={link.name}
-          href={`/?link=${link.name}`}
-        >
-          {link.name}
-        </Link>
-      ))}
+      <button
+        className="border-2 rounded px-4 py-1 bg-green-300"
+        onClick={addToSet}
+      >
+        Add number to set
+      </button>
     </div>
   );
 }
