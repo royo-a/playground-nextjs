@@ -1,32 +1,45 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Home() {
-  const [numberSet, setNumberSet] = useState(new Set());
-  let setSize = 0;
+  const [image, setImage] = useState(null);
 
-  const addToSet = () => {
-    setNumberSet((set) => {
-      let newSet = new Set(numberSet);
-      newSet.add(numberSet.size + 1);
-      return newSet;
-    });
+  const handleUploadImage = (e) => {
+    const files = e.target.files;
+    if (files.length > 0) {
+      const image = files[0];
+      console.log(image);
+
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(image);
+      fileReader.addEventListener('loadend', (e) => {
+        console.log(e.target.result);
+        setImage(e.target.result);
+      });
+    }
   };
-
-  useEffect(() => {
-    setSize++;
-    console.log(setSize);
-  }, []);
 
   return (
     <div>
-      <button
-        className="border-2 rounded px-4 py-1 bg-green-300"
-        onClick={addToSet}
-      >
-        Add number to set
-      </button>
+      <h1 className="text-3xl font-bold">
+        We will upload an image and preview it
+      </h1>
+      <div>
+        {image ? (
+          <Image
+            src={image}
+            height={400}
+            width={400}
+            alt="An image"
+            className="max-h-[200px] max-w-[200px]"
+          />
+        ) : null}
+      </div>
+      <form>
+        <input type="file" accept="image/*" onChange={handleUploadImage} />
+      </form>
     </div>
   );
 }
