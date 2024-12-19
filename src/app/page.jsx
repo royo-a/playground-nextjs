@@ -10,18 +10,20 @@ export default function Home() {
     console.group('handleUploadImage');
     // 👉 Files is an array that contains all selected files
     const files = e.target.files;
+    console.log('Selected files: ', files);
     if (files.length > 0) {
-      Array.from(files).forEach((file, index) => {
+      const imageArray = [];
+      let fileArray = Array.from(files);
+      fileArray.forEach((file) => {
         const fileReader = new FileReader();
         fileReader.addEventListener(
           'load',
           (e) => {
-            if (index === 0) {
-              setImage(() => [e.target.result]);
-              return;
-            }
+            imageArray.push({ src: e.target.result, name: file.name });
 
-            setImage((prevState) => [...prevState, e.target.result]);
+            if (imageArray.length === fileArray.length) {
+              setImage(imageArray);
+            }
           },
           { once: true }
         );
@@ -32,15 +34,15 @@ export default function Home() {
   }, []);
 
   const previewImages = useCallback(() => {
-    return image.map((img, index) => {
+    return image.map((img) => {
       return (
         <Image
-          key={imgx}
-          src={img}
+          key={img.name}
+          src={img.src}
           height={200}
           width={200}
           alt="An image"
-          className="max-h-[200px] max-w-[200px] flex overflow-x-auto gap-2"
+          className="size-[100px] flex-none"
         />
       );
     });
@@ -51,7 +53,7 @@ export default function Home() {
       <h1 className="text-3xl font-bold">
         We will upload an image and preview it
       </h1>
-      <div className="flex gap-2 ">{previewImages()}</div>
+      <div className="flex gap-2 overflow-x-auto">{previewImages()}</div>
       <form>
         <input
           type="file"
